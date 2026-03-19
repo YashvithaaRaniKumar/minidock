@@ -7,11 +7,11 @@ It lets you safely run, track, and kill background tasks while keeping them isol
 
 ## 📸 Demo
 
-*(Screenshots will appear once added to the assets folder.)*
 
-![Run](assets/run.png)
-![PS](assets/ps.png)
-![Stop](assets/stop.png)
+
+![Run](assets/screenshot1.png)
+![PS](assets/screenshot2.png)
+![Stop](assets/screenshot3.png)
 
 ---
 
