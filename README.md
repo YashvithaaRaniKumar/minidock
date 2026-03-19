@@ -1,7 +1,15 @@
 # MiniDock 🚀
 
-MiniDock is a lightweight, CLI-based process orchestration tool inspired by container runtimes like Docker.
-It allows you to run, track, and manage system processes with basic isolation and lifecycle control.
+MiniDock is a lightweight, command-line process manager inspired by container runtimes like Docker.
+It lets you safely run, track, and kill background tasks while keeping them isolated in their own active working directories.
+
+---
+
+## 📸 Demo
+
+![Run](assets/run.png)
+![PS](assets/ps.png)
+![Stop](assets/stop.png)
 
 ---
 
