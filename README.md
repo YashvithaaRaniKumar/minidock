@@ -111,11 +111,7 @@ especially process execution, isolation, and lifecycle management.
 
 ---
 
-## 🧾 Resume Description
 
-Built MiniDock, a lightweight container runtime prototype supporting process execution, isolation, process-state persistence, and lifecycle management via a CLI interface.
-
----
 
 ## 👤 Author
 
