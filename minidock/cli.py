@@ -61,7 +61,7 @@ def handle():
         if stop_process(pid):
             print(f"[MiniDock] Stopped {target} (PID: {pid})")
         else:
-            print(f"[MiniDock] Failed to stop {target}")
+            print(f"[MiniDock] Error: {target} not found or already stopped")
 
     else:
         print(f"[MiniDock] Unknown command '{cmd}'")

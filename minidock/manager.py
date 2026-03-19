@@ -23,23 +23,8 @@ def save_processes():
 
 processes: dict = load_processes()
 
-def start_process(name, command, root=None):
-    if name:
-        for proc in processes.values():
-            if proc.get("name") == name:
-                print(f"[MiniDock] Error: Name '{name}' is already in use")
-                return None
-    
-    pid = run_process(command, root)
-    processes[pid] = {
-        "name": name,
-        "command": command,
-        "root": root
-    }
-    save_processes()
-    return pid
-
-def list_processes():
+def cleanup_processes():
+    """Removes dead processes from state properly"""
     global processes
     dead_pids = []
     
@@ -59,41 +44,56 @@ def list_processes():
     
     if dead_pids:
         save_processes()
+
+def start_process(name, command, root=None):
+    cleanup_processes()
     
+    if name:
+        for proc in processes.values():
+            if proc.get("name") == name:
+                print(f"[MiniDock] Error: Name '{name}' is already in use")
+                return None
+    
+    pid = run_process(command, root)
+    processes[pid] = {
+        "name": name,
+        "command": command,
+        "root": root
+    }
+    save_processes()
+    return pid
+
+def list_processes():
+    cleanup_processes()
     return processes
 
 def get_pid_by_name(name):
+    cleanup_processes()
     for pid, proc in processes.items():
         if proc.get("name") == name:
             return pid
     return None
 
 def stop_process(pid):
+    cleanup_processes()
+    
     if pid not in processes:
-        print(f"[MiniDock] PID {pid} not found")
         return False
 
     try:
         if os.name == 'nt':
-            cmd = subprocess.run(
+            subprocess.run(
                 ["taskkill", "/PID", str(pid), "/T", "/F"],
                 capture_output=True,
                 text=True
             )
-            if cmd.returncode == 0:
-                processes.pop(pid, None)
-                save_processes()
-                return True
-                
-            print(f"[MiniDock] Error: {cmd.stderr.strip()}")
-            return False
-
         else:
             os.kill(pid, signal.SIGTERM)
-            processes.pop(pid, None)
-            save_processes()
-            return True
 
     except Exception as e:
         print(f"[MiniDock] Error: {e}")
-        return False
+
+    # Remove process safely after stopping
+    processes.pop(pid, None)
+    save_processes()
+    return True
